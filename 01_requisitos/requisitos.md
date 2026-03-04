@@ -1,6 +1,8 @@
 ﻿1. Contexto do Sistema
 O InfoBairro é uma aplicação web que permite aos usuários visualizar, avaliar e comentar sobre bairros por meio de um mapa interativo integrado à API do Google Maps.
+
 O sistema permite:
+
 • Cadastro e autenticação de usuários
 • Cadastro, edição e exclusão de bairros
 • Visualização de bairros no mapa com pings geográficos
@@ -12,78 +14,139 @@ O sistema será utilizado por:
 • Administradores Master
 • Usuários
 
-2. Perfis de Usuário
-O sistema possui três perfis de acesso:
+2. Perfis de Usuário e Permissões do Sistema
+
+O sistema possui três perfis de acesso, cada um com níveis específicos de permissão:
+
 • ADMIN MASTER
+
 • ADMIN
+
 • USER
-Permissões
-Operação
-ADMIN MASTER
-ADMIN
-USER
-Registrar usuário
-✔
-✔
-✔
-Visualizar informações dos bairros
-✔
-✔
-✔
-Navegar pelo mapa
-✔
-✔
-✔
+
+Abaixo estão detalhadas as permissões de cada perfil dentro do sistema:
+
+1. Permissões Gerais
+
+Registrar Usuário
+
+• ADMIN MASTER: ✖
+
+• ADMIN: ✖
+
+• USER: ✔
+
+Visualizar Informações dos Bairros
+
+• ADMIN MASTER: ✔
+
+• ADMIN: ✔
+
+• USER: ✔
+
+Navegar pelo Mapa
+
+• ADMIN MASTER: ✔
+
+• ADMIN: ✔
+
+• USER: ✔
+
 Comentar
-✔
-✔
-✔
-Curtir comentário
-✔
-✔
-✔
-Avaliar bairro
-✔
-✔
-✔
-Criar bairros
-✔
-✔
-✖
-Editar bairros
-✔
-✔
-✖
-Excluir bairro
-✔
-✖
-✖
-Moderar comentários
-✔
-✔
-✖
-Gerenciar usuários (bloquear/excluir)
-✔
-✔
-✖
-Gerenciar administradores
-✔
-✖
-✖
-Filtrar bairros por critério
-✔
-✔
-✔
+
+• ADMIN MASTER: ✖
+
+• ADMIN: ✖
+
+• USER: ✔
+
+Curtir Comentários
+
+• ADMIN MASTER: ✖
+
+• ADMIN: ✖
+
+• USER: ✔
+
+Avaliar Bairro
+
+• ADMIN MASTER: ✖
+
+• ADMIN: ✖
+
+• USER: ✔
+
+Filtrar Bairros por Critério
+
+ADMIN MASTER: ✔
+
+ADMIN: ✔
+
+USER: ✔
+
+2. Permissões Administrativas
+
+Registrar Administradores
+
+• ADMIN MASTER: ✔
+
+• ADMIN: ✖
+
+• USER: ✖
 
 
+Criar Bairros
 
+ADMIN MASTER: ✔
 
+ADMIN: ✔
 
+USER: ✖
 
+Editar Bairros
+
+ADMIN MASTER: ✔
+
+ADMIN: ✔
+
+USER: ✖
+
+Excluir Bairro
+
+ADMIN MASTER: ✔
+
+ADMIN: ✖
+
+USER: ✖
+
+Moderar Comentários
+
+ADMIN MASTER: ✔
+
+ADMIN: ✔
+
+USER: ✖
+
+Gerenciar Usuários (Bloquear/Excluir)
+
+ADMIN MASTER: ✔
+
+ADMIN: ✔
+
+USER: ✖
+
+Gerenciar Administradores
+
+ADMIN MASTER: ✔
+
+ADMIN: ✖
+
+USER: ✖
 
 
 
 3. Requisitos Funcionais (RF)
+
 Módulo 1 – Bairro
 RF01 – O sistema deve permitir que o ADMIN cadastre novos bairros.
 RF02 – O sistema deve permitir que o ADMIN edite as informações de um bairro.
@@ -91,6 +154,7 @@ RF03 – O sistema deve permitir que usuários visualizem os bairros cadastrados
 RF04 – O sistema deve permitir que o ADMIN MASTER exclua bairros.
 
 Módulo 2 – Avaliação
+
 RF05 – O sistema deve permitir que o usuário avalie bairros nos seguintes critérios:
 • Segurança
 • Transporte
@@ -100,10 +164,12 @@ RF05 – O sistema deve permitir que o usuário avalie bairros nos seguintes cri
 • Comércio
 • Lazer
 • Serviços de Entrega
+
 RF06 – O sistema deve calcular e exibir a média das avaliações de cada bairro.
 RF07 – O sistema deve permitir que o usuário visualize as avaliações já realizadas.
 
 Módulo 3 – Comentário
+
 RF08 – O sistema deve permitir que o usuário publique comentários na aba de comentários de cada bairro.
 RF09 – O sistema deve permitir que usuários visualizem os comentários publicados.
 RF10 – O sistema deve permitir que usuários curtam comentários.
@@ -147,6 +213,7 @@ RN13 – Não são permitidos comentários contendo:
 • Links externos
 • Endereços de e-mail
 • Redes sociais
+
 RN14 – Comentários são exibidos de forma anônima para outros usuários, mantendo a identidade visível apenas para administradores.
 ---
 
@@ -155,18 +222,22 @@ RN14 – Comentários são exibidos de forma anônima para outros usuários, man
 ---
 
 5. Endpoints da API
+
 Autenticação
+
 POST /auth/register
 POST /auth/login
 POST /auth/logout
 GET /auth/me
 
 Usuários
+
 GET /users/{id}
 PATCH /users/{id}
 DELETE /users/{id}
 
 Bairros
+
 POST /neighborhoods
 GET /neighborhoods
 GET /neighborhoods/{id}
@@ -176,6 +247,7 @@ GET /neighborhoods/search?name={nome}
 GET /neighborhoods/filter?criteria={categoria}&order={asc|desc}
 
 Avaliações
+
 POST /neighborhoods/{id}/ratings
 GET /neighborhoods/{id}/ratings
 PATCH /ratings/{id}
@@ -191,11 +263,13 @@ Categorias de avaliação disponíveis:
 • educacao
 
 Comentários
+
 POST /neighborhoods/{id}/comments
 GET /neighborhoods/{id}/comments
 DELETE /comments/{id}
 
 Moderação (Administrador)
+
 GET /admin/comments/pending
 PATCH /admin/comments/{id}/approve
 PATCH /admin/comments/{id}/reject
@@ -204,6 +278,7 @@ PATCH /admin/users/{id}/block
 PATCH /admin/users/{id}/unblock
 
 Integração com Mapa
+
 GET /map/neighborhoods
 Retorna lista de bairros com:
 • Nome
@@ -213,6 +288,7 @@ Retorna lista de bairros com:
 • Quantidade de avaliações
 
 6. Regras de Autenticação
+
 • A autenticação é baseada em token JWT.
 • O token deve ser enviado no header:
 Authorization: Bearer {token}
@@ -222,15 +298,18 @@ Authorization: Bearer {token}
 • Endpoints administrativos exigem role ADMIN.
 
 7. Regras de Negócio
+
 • Apenas usuários autenticados podem:
 o Avaliar bairros
 o Comentar
 o Editar perfil
+
 • Apenas administradores podem:
 o Criar, editar e excluir bairros
 o Moderar comentários
 o Bloquear ou excluir contas
 o Alterar características dos bairros
+
 • Todo comentário passa por:
 1. Verificação automática baseada na Política de Comunidade
 2. Caso suspeito → status "pendente"
@@ -241,6 +320,7 @@ o Avaliações associadas
 o Comentários associados
 
 8. Considerações Gerais
+
 • Todas as respostas devem retornar status HTTP adequado:
 o 200 – OK
 o 201 – Created
